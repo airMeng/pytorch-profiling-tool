@@ -29,16 +29,17 @@ class Profiling(object):
 
         iter = len(self.record['forward']) / self.layer_num
 
-        for i in xrange(iter):
+        for i in range(int(iter)):
             ret += "\n================================= Iteration {} =================================\n".format(i + 1)
     
             ret += "\nFORWARD TIME:\n\n"
-            for j in xrange(self.layer_num):
+            for j in range(self.layer_num):
                 record_item = self.record['forward'][i * self.layer_num + j]
                 ret += "layer{:3d}:          {:.6f} ms          ({})\n".format(j + 1, record_item[2] - record_item[1], record_item[0])
 
+
             ret += "\nBACKWARD TIME:\n\n"
-            for j in (xrange(self.layer_num)):
+            for j in (range(self.layer_num)):
                 record_item = self.record['backward'][i * self.layer_num + self.layer_num - j - 1]
                 try:
                     ret += "layer{:3d}:          {:.6f} ms          ({})\n".format(j + 1, record_item[2] - record_item[1], record_item[0])
@@ -95,8 +96,8 @@ class Profiling(object):
                     def backward_pre_hook(*args):
                         if (this_profiler.profiling_on):
                             this_profiler.record['backward'].append((that, time.time()))
+                    result.register_hook(backward_pre_hook)
 
-                    result.grad_fn.register_pre_hook(backward_pre_hook);
 
                     if (this_profiler.profiling_on):
                         global record
@@ -107,6 +108,9 @@ class Profiling(object):
 
                 # Replace "__call__" with "wrapper_call".
                 if sub_module.__class__ not in this_profiler.origin_call:
+                    a=sub_module.__class__
+
+                    print(a)
                     this_profiler.origin_call.update({sub_module.__class__: sub_module.__class__.__call__})
                     sub_module.__class__.__call__ = wrapper_call
 
