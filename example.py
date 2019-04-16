@@ -20,7 +20,7 @@ model = alexnet.alexnet()
 
 # profiler will measure the following 3 iterations.
 with Profiling(model) as p:
-    for i in xrange(iter):
+    for i in range(iter):
         # Forward:
         output = model.forward(Variable(torch.ones(2, 3, 224, 224), requires_grad=True))
 
@@ -29,7 +29,7 @@ with Profiling(model) as p:
         output.backward(grads);
 
 # profiler won't measure the following 2 extra iterations, since they are out of profiler's range.
-for i in xrange(2):
+for i in range(2):
     # Forward:
     output = model.forward(Variable(torch.ones(2, 3, 224, 224), requires_grad=True))
 

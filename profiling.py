@@ -109,8 +109,6 @@ class Profiling(object):
                 # Replace "__call__" with "wrapper_call".
                 if sub_module.__class__ not in this_profiler.origin_call:
                     a=sub_module.__class__
-
-                    print(a)
                     this_profiler.origin_call.update({sub_module.__class__: sub_module.__class__.__call__})
                     sub_module.__class__.__call__ = wrapper_call
 
